@@ -1,0 +1,63 @@
+<div id="zip-code-address">
+  <h2>郵便番号フィールド(必須)</h2>
+  <div class="kintoneplugin-select-outer">
+    <div class="kintoneplugin-label">
+      住所検索する郵便番号を入力するフィールドを指定します。文字列(1行)形式のフィールドを指定可能です。
+    </div>
+    <div>
+      <div class="kintoneplugin-select">
+        <select id="myzip-zipcode-field" class="myzip-text-field config-items">
+          <option value="null">--</option>
+        </select>
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <h2>住所取得フィールド(必須)</h2>
+  <div class="kintoneplugin-select-outer">
+    <div class="kintoneplugin-label">
+      検索結果の住所を入力するフィールドを指定します。文字列(1行)形式のフィールドを指定可能です。
+    </div>
+    <div>
+      <div class="kintoneplugin-select">
+        <select id="myzip-address-field" class="myzip-text-field config-items">
+          <option value="null">--</option>
+        </select>
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <h2>検索ボタンの設置フィールド(必須)</h2>
+  <div class="kintoneplugin-select-outer">
+    <div class="kintoneplugin-label">
+      検索ボタンを設置するフィールドを指定します。スペース形式のフィールドを指定可能です。
+    </div>
+    <div>
+      <div class="kintoneplugin-select">
+        <select id="myzip-button-field" class="myzip-button config-items">
+          <option value="null">--</option>
+        </select>
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <h2>検索ボタンラベル(オプション)</h2>
+  <div class="kintoneplugin-select-outer">
+    <div class="kintoneplugin-label">
+      検索ボタンに表示するラベルを指定します。空欄にした場合には「住所取得」になります。
+    </div>
+    <div>
+      <input type="text" id="myzip-label-text" class="myzip-button-label config-items">
+    </div>
+  </div>
+
+  <button class="kintoneplugin-button-dialog-ok" id="zip-code-address-submit">
+    保存して反映
+  </button>
+  <button class="kintoneplugin-button-normal" id="zip-code-address-cancel">
+    キャンセル
+  </button>
+</div>

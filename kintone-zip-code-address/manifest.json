@@ -1,0 +1,37 @@
+{
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "name": {
+    "ja": "郵便番号から住所取得プラグイン",
+    "en": "Zip code to address conversion plugin"
+  },
+  "description": {
+    "ja": "入力した郵便番号から住所を取得するプラグインです。",
+    "en": "This plugin converts Japanese Zip code to address string."
+  },
+  "icon": "img/icon.png",
+  "homepage_url": {
+      "ja": "https://github.com/ryoon/kintone-zip-code-address",
+      "en": "https://github.com/ryoon/kintone-zip-code-address"
+  },
+  "desktop": {
+    "js": [
+      "https://js.cybozu.com/jquery/3.5.1/jquery.min.js",
+      "https://www.ryoon.net/~ryoon/k/zipcode/js/desktop.js"
+    ],
+    "css": [
+      "css/desktop.css"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "https://js.cybozu.com/jquery/3.5.1/jquery.min.js",
+      "https://www.ryoon.net/~ryoon/k/zipcode/js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ]
+  }
+}
