@@ -45,15 +45,14 @@ function getMySpaceFields() {
           }
 
           if (row.type == 'ROW') {
-            for (var i = 0; i < row.fields.length; i++) {
-              var spaceField = row.fields[i];
+            for (var j = 0; j < row.fields.length; j++) {
+              var spaceField = row.fields[j];
               var appendedHtml;
               if (spaceField.type === 'SPACER' && spaceField.elementId !== '') {
                 appendedHtml = $('<option value = ' + '"' +
                   escapeHtml(spaceField.elementId) + '">' +
                   escapeHtml(spaceField.elementId) + '</option>');
                 resolve($('.myzip-button').append(appendedHtml.clone()));
-console.log(appendedHtml);
               }
             }
           }
@@ -81,7 +80,6 @@ function getMyTextFields() {
               escapeHtml(prop.code) + '">' +
               escapeHtml(prop.label) + '</option>');
               resolve($('.myzip-text-field').append(appendedHtml));
-console.log(appendedHtml);
           }
         }
       }
@@ -96,7 +94,6 @@ function setDefaults() {
   var outer = kintone.plugin.app.getConfig(PLUGIN_ID);
   if (outer.length != 0) {
     var config = JSON.parse(outer.config);
-console.log(config);
     $('#myzip-zipcode-field').val(config.myzipconfig_0);
     $('#myzip-address-field').val(config.myzipconfig_1);
     $('#myzip-button-field').val(config.myzipconfig_2);
@@ -127,7 +124,6 @@ kintone.Promise.all([
   getMySpaceFields()
 ]).then(function(values) {
   setDefaults();
-  console.log("done")
 }
 );
 
