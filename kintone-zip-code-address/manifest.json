@@ -18,7 +18,7 @@
   "desktop": {
     "js": [
       "https://js.cybozu.com/jquery/3.5.1/jquery.min.js",
-      "https://www.ryoon.net/~ryoon/k/zipcode/js/desktop.js"
+      "js/desktop.js"
     ],
     "css": [
       "css/desktop.css"
@@ -28,7 +28,7 @@
     "html": "html/config.html",
     "js": [
       "https://js.cybozu.com/jquery/3.5.1/jquery.min.js",
-      "https://www.ryoon.net/~ryoon/k/zipcode/js/config.js"
+      "js/config.js"
     ],
     "css": [
       "css/config.css"
