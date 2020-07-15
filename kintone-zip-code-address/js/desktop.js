@@ -28,24 +28,25 @@ jQuery.noConflict();
       myzipButton.style.marginTop = '10%';
       myzipButton.onclick = function() {
         var record = kintone.app.record.get();
-console.log(record);
         var zipCode = record.record[config.myzipconfig_0].value;
         var uri = ' https://zipcloud.ibsnet.co.jp/api/search' +
-          '?limit=20&zipcode=' + zipCode;
-console.log(uri);
+          '?limit=1&zipcode=' + zipCode;
         // 1件のみ住所を取得する。
         kintone.proxy(uri,
           'GET',
           {},
           {},
           function(body, status, headers) {
-            var result = JSON.parse(body).results[0];
-            var address = result.address1 + result.address2 + result.address3;
+            var resultBody = JSON.parse(body);
+            if (resultBody.status == '200') {
+              var result = resultBody.results[0];
+              var address = result.address1 + result.address2 + result.address3;
 
-            // 画面に取得した住所を書き込む。
-            var record = kintone.app.record.get();
-            record.record[config.myzipconfig_1].value = address;
-            kintone.app.record.set(record);
+              // 画面に取得した住所を書き込む。
+              var record = kintone.app.record.get();
+              record.record[config.myzipconfig_1].value = address;
+              kintone.app.record.set(record);
+            }
         });
       };
 
