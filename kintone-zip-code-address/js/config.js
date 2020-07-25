@@ -30,9 +30,9 @@ function escapeHtml(htmlstr) {
       }
 }
 
-// スペースフィールドを取得し、class=myzip-buttonに追加する。
 function getMySpaceFields() {
   var promise = new kintone.Promise(function(resolve, reject) {
+    var myzipSpaceFields = [];
     kintone.api(kintone.api.url('/k/v1/preview/app/form/layout', true),
       'GET',
       {'app': kintone.app.getId()},
@@ -47,23 +47,31 @@ function getMySpaceFields() {
           if (row.type == 'ROW') {
             for (var j = 0; j < row.fields.length; j++) {
               var spaceField = row.fields[j];
-              var appendedHtml;
               if (spaceField.type === 'SPACER' && spaceField.elementId !== '') {
-                appendedHtml = $('<option value = ' + '"' +
-                  escapeHtml(spaceField.elementId) + '">' +
-                  escapeHtml(spaceField.elementId) + '</option>');
-                resolve($('.myzip-button').append(appendedHtml.clone()));
+                myzipSpaceFields.push({
+                  code: spaceField.elementId,
+                  label: spaceField.elementId
+                });
               }
             }
           }
         }
-    });
+
+        resolve(
+          myzipSpaceFields
+        );
+      }
+    );
+
   });
+
   return promise;
 }
 
 function getMyTextFields() {
+  var myzipTextFields = [];
   var promise = new kintone.Promise(function(resolve, reject) {
+    var vm = {};
     kintone.api(kintone.api.url('/k/v1/preview/app/form/fields', true),
       'GET',
       {'app': kintone.app.getId()},
@@ -74,57 +82,84 @@ function getMyTextFields() {
           }
 
           var prop = resp.properties[key];
-          var appendedHtml;
           if (prop.type == 'SINGLE_LINE_TEXT') {
-            appendedHtml = $('<option value = ' + '"' +
-              escapeHtml(prop.code) + '">' +
-              escapeHtml(prop.label) + '</option>');
-              resolve($('.myzip-text-field').append(appendedHtml));
+              myzipTextFields.push({
+                code: prop.code,
+                label: prop.label
+              });
           }
         }
-      }
-    );
+
+        resolve(
+          myzipTextFields
+        );
+      });
   });
+
   return promise;
 }
 
-
-
-function setDefaults() {
+function setDefaults(values) {
   var outer = kintone.plugin.app.getConfig(PLUGIN_ID);
-  if (outer.length != 0) {
-    var config = JSON.parse(outer.config);
-    $('#myzip-zipcode-field').val(config.myzipconfig_0);
-    $('#myzip-address-field').val(config.myzipconfig_1);
-    $('#myzip-button-field').val(config.myzipconfig_2);
-    $('#myzip-label-text').val(config.myzipconfig_3);
+  if (outer.length == 0 || outer.length == 'undefined') {
+    console.log("Init");   
+    var data = {
+      myzipZipCode_options: values[0],
+      myzipAddress_options: values[0],
+      myzipButton_options: values[1],
+      data: [{
+        myzipconfig_0: "",
+        myzipconfig_1: "",
+        myzipconfig_2: "",
+        myzipconfig_3: ""
+      }]
+    };
+  } else {
+    console.log("Restore");
+    var data = {
+      myzipZipCode_options: values[0],
+      myzipAddress_options: values[0],
+      myzipButton_options: values[1]
+    }
+    var storedData = JSON.parse(outer.config);
+    data.data = storedData.data;
   }
-}
 
-$('#zip-code-address-submit').click(function() {
-  var config = {};
-  var myzipConfig = {};
-  $('.config-items').each(function(index, value) {
-    myzipConfig['myzipconfig_' + index] = $(this).val();
+  var settings = new Vue({
+    el: '#settings',
+    data: {
+      settings: data
+    },
+    methods: {
+      myzipAddCondition: function(event) {
+        console.log(JSON.stringify(this.settings));
+        var selfId = parseInt($(event.target.parentNode).attr('id'));
+        this.settings.data.splice(selfId + 1, 0, Object.assign({}, this.settings.data[selfId]));
+      },
+      myzipRemoveCondition: function(event) {
+        console.log(this.settings);
+        if ($('.myzipCodeAddress').length > 1) {
+          var selfId = parseInt($(event.target.parentNode).attr('id'));
+          this.settings.data.splice(selfId, 1);
+        }
+      },
+      myzipSaveConf: function(event) {
+        var savingConfig = {};
+        savingConfig.config = JSON.stringify(this.settings);
+        kintone.plugin.app.setConfig(savingConfig);
+      },
+      myzipBackToPrev: function(event) {
+        history.back();
+      }
+    }
   });
-  // プラグイン固有の設定値のストレージは文字列しか保存できないので、
-  // 設定JSONは文字列にして格納する。
-  config.config = JSON.stringify(myzipConfig);
-
-  kintone.plugin.app.setConfig(config);
-});
-
-// キャンセルボタンを押したら一つ前のページに戻る。
-$('#zip-code-address-cancel').click(function() {
-  history.back();
-});
+}
 
 kintone.Promise.all([
   getMyTextFields(),
   getMySpaceFields()
 ]).then(function(values) {
-  setDefaults();
-}
-);
+  setDefaults(values);
+});
 
 })(jQuery, kintone.$PLUGIN_ID);

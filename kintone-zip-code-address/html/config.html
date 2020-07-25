@@ -1,4 +1,11 @@
-<div id="zip-code-address">
+<div id="settings">
+
+<div v-for="(setting, sIndex) in settings.data">
+
+<div class="myzipCodeAddress" v-bind:id="sIndex">
+  <div v-on:click="myzipAddCondition">(追加)</div>
+  <div v-on:click="myzipRemoveCondition">(削除)</div>
+  <h1>設定: {{sIndex}}</h1>
   <h2>郵便番号フィールド(必須)</h2>
   <div class="kintoneplugin-select-outer">
     <div class="kintoneplugin-label">
@@ -6,23 +13,25 @@
     </div>
     <div>
       <div class="kintoneplugin-select">
-        <select id="myzip-zipcode-field" class="myzip-text-field config-items">
-          <option value="null">--</option>
+        <select class="myzipTextFieldsSelect config-items" v-model="settings.data[sIndex].myzipconfig_0">
+          <option value="--">--</option>
+          <option v-for="(field, index) in settings.myzipZipCode_options" v-bind:value="field.code">{{field.label}}</option>
         </select>
       </div>
       <br>
     </div>
   </div>
 
-  <h2>住所取得フィールド(必須)</h2>
+  <h2>住所出力フィールド(必須)</h2>
   <div class="kintoneplugin-select-outer">
     <div class="kintoneplugin-label">
       検索結果の住所を入力するフィールドを指定します。文字列(1行)形式のフィールドを指定可能です。
     </div>
     <div>
       <div class="kintoneplugin-select">
-        <select id="myzip-address-field" class="myzip-text-field config-items">
-          <option value="null">--</option>
+        <select class="myzipTextFieldsSelect config-items" v-model="settings.data[sIndex].myzipconfig_1">
+          <option value="--">--</option>
+          <option v-for="(field, index) in settings.myzipAddress_options" v-bind:value="field.code">{{field.label}}</option>
         </select>
       </div>
       <br>
@@ -36,8 +45,9 @@
     </div>
     <div>
       <div class="kintoneplugin-select">
-        <select id="myzip-button-field" class="myzip-button config-items">
-          <option value="null">--</option>
+        <select class="myzipSpaceFieldsSelect config-items" v-model="settings.data[sIndex].myzipconfig_2">
+          <option value="--">--</option>
+          <option v-for="(field, index) in settings.myzipButton_options" v-bind:value="field.code">{{field.label}}</option>
         </select>
       </div>
       <br>
@@ -50,14 +60,17 @@
       検索ボタンに表示するラベルを指定します。空欄にした場合には「住所取得」になります。
     </div>
     <div>
-      <input type="text" id="myzip-label-text" class="myzip-button-label config-items">
+      <input type="text" id="myzip-label-text" class="myzip-button-label config-items" v-model="settings.data[sIndex].myzipconfig_3">
     </div>
   </div>
+</div>
+<br>
+</div>
 
-  <button class="kintoneplugin-button-dialog-ok" id="zip-code-address-submit">
-    保存して反映
-  </button>
-  <button class="kintoneplugin-button-normal" id="zip-code-address-cancel">
-    キャンセル
-  </button>
+<button class="kintoneplugin-button-dialog-ok" id="zip-code-address-submit" v-on:click="myzipSaveConf">
+  保存して反映
+</button>
+<button class="kintoneplugin-button-normal" id="zip-code-address-cancel" v-on:click="myzipBackToPrev">
+  キャンセル
+</button>
 </div>

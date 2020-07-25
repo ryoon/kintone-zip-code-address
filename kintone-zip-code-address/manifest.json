@@ -1,6 +1,6 @@
 {
   "manifest_version": 1,
-  "version": 1,
+  "version": 2,
   "type": "APP",
   "name": {
     "ja": "郵便番号から住所取得プラグイン",
@@ -28,6 +28,7 @@
     "html": "html/config.html",
     "js": [
       "https://js.cybozu.com/jquery/3.5.1/jquery.min.js",
+      "https://js.cybozu.com/vuejs/v2.6.11/vue.min.js",
       "js/config.js"
     ],
     "css": [
