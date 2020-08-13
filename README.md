@@ -4,6 +4,7 @@ This kintone plugin can be used to get Japanese address string from
 zip code in kintone edit screen.
 
 The backend is zipcloud's [郵便番号検索API](http://zipcloud.ibsnet.co.jp/doc/api).
+Make sure to read [郵便番号検索API利用規約](http://zipcloud.ibsnet.co.jp/rule/api).
 
 ## Bugs
 * The configuration user interface is in Japanese only.
